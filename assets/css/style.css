@@ -15,6 +15,9 @@
   #CUSTOM PROPERTY
 \*-----------------------------------*/
 
+
+
+
 :root {
 
   /**
@@ -118,6 +121,50 @@
 /*-----------------------------------*\
   #RESET
 \*-----------------------------------*/
+
+/*till here*/
+
+.blob {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 300px; /* Adjust the size as needed */
+  height: 300px; /* Adjust the size as needed */
+  pointer-events: none; /* This ensures that the blob doesn't interfere with mouse events */
+  z-index: -1; /* Ensure the blob is behind other content */
+  background: linear-gradient(
+      180deg,
+      rgba(47, 184, 255, 0.42) 31.77%,
+      #5c9df1 100%
+  );
+  mix-blend-mode: color-dodge;
+  animation: move 25s infinite alternate;
+}
+
+.blob:hover {
+  width: 320px;
+  height: 320px;
+  filter: blur(30px);
+  box-shadow: inset 0 0 0 5px rgba(255, 255, 255, 0.6),
+      inset 100px 100px 0 0px #fa709a,
+      inset 200px 200px 0 0px #784ba8,
+      inset 300px 300px 0 0px #2b86c5;
+  transition: all 0.3s ease; /* Add transition for smooth hover effect */
+}
+
+@keyframes move {
+  from {
+      transform: translate(-100px, -50px) rotate(-90deg);
+      border-radius: 24% 76% 35% 65% / 27% 36% 64% 73%;
+  }
+  to {
+      transform: translate(calc(100vw + 100px), 100px) rotate(-10deg); /* Adjust the distance the blob travels */
+      border-radius: 76% 24% 33% 67% / 68% 55% 45% 32%;
+  }
+}
+
+
+/*from here*/
 
 *, *::before, *::after {
   margin: 0;
@@ -465,6 +512,10 @@ main {
   border-radius: 12px 12px 0 0;
   box-shadow: var(--shadow-2);
   z-index: 5;
+  height: 40px;
+  display: flex;
+  justify-content: center; /* Horizontally centers buttons */
+  align-items: center; /* Vertically aligns buttons (if needed) */
 }
 
 .navbar-list {
@@ -741,6 +792,16 @@ main {
   overscroll-behavior-inline: contain;
   scroll-snap-type: inline mandatory;
   scroll-padding-inline: 25px;
+  my-element {
+    animation: fadeIn 2s ease-in-out;
+    animation-timeline: scroll;
+    animation-delay: calc(var(--scroll-y) * 100vh); /* Start based on scroll position */
+  }
+  
+  @keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
 }
 
 .clients-item {
@@ -755,8 +816,6 @@ main {
 }
 
 .clients-item img:hover { filter: grayscale(0); }
-
-
 
 
 
@@ -1239,8 +1298,15 @@ textarea.form-input::-webkit-resizer { display: none; }
    * client
    */
 
-  .clients-item { min-width: calc(33.33% - 10px); }
-
+  ..clients-item img {
+    /* Existing styles (width, filter, transition) */
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .clients-item img:hover {
+    transform: scale(1.1); /* Zoom on hover */
+    filter: sepia(0.5) hue-rotate(10deg); /* Apply sepia and hue overlay */
+  }
 
 
   /**
@@ -1251,10 +1317,6 @@ textarea.form-input::-webkit-resizer { display: none; }
   .blog-banner-box { height: auto; }
 
 }
-
-
-
-
 
 /**
  * responsive larger than 580px screen
@@ -1281,8 +1343,6 @@ textarea.form-input::-webkit-resizer { display: none; }
     --fs-8: 12px;
 
   }
-
-
 
   /**
    * #REUSED STYLE
@@ -1311,8 +1371,6 @@ textarea.form-input::-webkit-resizer { display: none; }
     font-size: 18px;
   }
 
-
-
   /**
    * #MAIN
    */
@@ -1321,8 +1379,6 @@ textarea.form-input::-webkit-resizer { display: none; }
     margin-top: 60px;
     margin-bottom: 100px;
   }
-
-
 
   /**
    * #SIDEBAR
@@ -1366,7 +1422,6 @@ textarea.form-input::-webkit-resizer { display: none; }
     max-width: calc(100% - 64px);
     width: calc(100% - 64px);
   }
-
 
 
   /**
@@ -1576,7 +1631,7 @@ textarea.form-input::-webkit-resizer { display: none; }
    * NAVBAR
    */
 
-  .navbar-link { --fs-8: 15px; }
+  .navbar-link { --fs-8: 20px; }
 
 
 
@@ -1607,7 +1662,7 @@ textarea.form-input::-webkit-resizer { display: none; }
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    gap: 25px;
+    gap: 250px;
     padding-left: 5px;
     margin-bottom: 30px;
   }
@@ -1642,7 +1697,78 @@ textarea.form-input::-webkit-resizer { display: none; }
 }
 
 
+{
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background: #000;
+}
 
+.glow-on-hover {
+    width: 90px;
+    height: 30px;
+    border: none;
+    outline: none;
+    color: #fff;
+    background: #282829;
+    cursor: pointer;
+    position: relative;
+    z-index: 0;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.glow-on-hover:before {
+    content: '';
+    background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+    position: absolute;
+    top: -2px;
+    left:-2px;
+    background-size: 400%;
+    z-index: -1;
+    filter: blur(5px);
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    animation: glowing 20s linear infinite;
+    opacity: 0;
+    transition: opacity .3s ease-in-out;
+    border-radius: 10px;
+}
+
+.glow-on-hover:active {
+    color: #000
+}
+
+.glow-on-hover:active:after {
+    background: transparent;
+}
+
+.glow-on-hover:hover:before {
+    opacity: 1;
+}
+
+.glow-on-hover:after {
+    z-index: -1;
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: hsl(0, 0%, 16%);
+    left: 0;
+    top: 0;
+    border-radius: 10px;
+}
+
+@keyframes glowing {
+    0% { background-position: 0 0; }
+    50% { background-position: 400% 0; }
+    100% { background-position: 0 0; }
+}
 
 
 /**
@@ -1880,3 +2006,4 @@ textarea.form-input::-webkit-resizer { display: none; }
   .timeline-text { max-width: 700px; }
 
 }
+
